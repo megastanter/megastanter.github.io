@@ -3,166 +3,164 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Рисование разными кистями и цветами</title>
+<title>Painter and Drawer</title>
 <style>
   body {
+    margin: 0;
+    background-color: #ffe5b4; /* нежно персиковый цвет */
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0; /* Цвет фона сайта */
-    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   h1 {
-    text-align: center;
+    margin: 20px;
   }
 
-  /* Обертка для рамки */
-  #canvas-container {
+  /* Обертка для панели кистей и цветов */
+  .toolbar {
     display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: #ffffff; /* Цвет внутри рамки */
-    border: 8px solid #4A90E2; /* Красивое оформление рамки */
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    max-width: 90%;
-    margin: 0 auto;
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
-  #drawingCanvas {
-    background-color: #fff; /* Цвет самого холста */
-    display: block;
-    border-radius: 5px;
-    cursor: crosshair;
-  }
-
-  #toolbar {
-    margin-top: 15px;
-    text-align: center;
-  }
-
-  button {
-    margin: 5px;
-    padding: 8px 12px;
+  /* Иконки для кистей */
+  .brushes button {
     border: none;
-    border-radius: 8px;
-    background-color: #4A90E2;
-    color: #fff;
-    font-size: 14px;
+    background: transparent;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 24px;
   }
 
-  button:hover {
-    background-color: #357ABD;
-  }
-
-  /* Цвета для выбора */
-  .color-swatch {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin: 0 5px;
-    border: 2px solid #ccc;
+  /* Иконки для цветов */
+  .colors button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
     border-radius: 50%;
-    cursor: pointer;
   }
-  .color-swatch.active {
-    border-color: #000;
+
+  /* Цвета кнопок */
+  .colors .red { background-color: red; }
+  .colors .yellow { background-color: yellow; }
+  .colors .blue { background-color: blue; }
+  .colors .black { background-color: black; }
+  .colors .violet { background-color: violet; }
+  .colors .pink { background-color: pink; }
+  .colors .green { background-color: green; }
+
+  /* Поле для рисования с фигурной рамкой */
+  #canvasContainer {
+    border: 8px solid #8b5e3c; /* коричневая рамка */
+    border-radius: 20px; /* фигурная рамка */
+    padding: 10px;
+    background-color: #fff8f0; /* светлый фон внутри рамки */
+  }
+
+  canvas {
+    display: block;
+    border-radius: 10px;
+    background-color: #ffffff;
   }
 </style>
 </head>
 <body>
+<h1>Painter and Drawer</h1>
 
-<h1>Рисование разными кистями и цветами</h1>
-
-<div id="canvas-container">
-  <canvas id="drawingCanvas" width="800" height="600"></canvas>
+<div class="toolbar brushes">
+  <button id="pencil" title="Карандаш">✏️</button>
+  <button id="ballpoint" title="Шариковая ручка">🖊️</button>
+  <button id="brush" title="Кисточка">🖌️</button>
+  <button id="marker" title="Фломастер">🖍️</button>
 </div>
 
-<div id="toolbar">
-  <div>
-    <button data-brush="brush1">Кисть 1</button>
-    <button data-brush="brush2">Кисть 2</button>
-    <button data-brush="brush3">Кисть 3</button>
-    <button data-brush="eraser">Ластик</button>
-  </div>
-  <div style="margin-top:10px;">
-    Цвет:
-    <span class="color-swatch" style="background-color:#000000;" data-color="#000000"></span>
-    <span class="color-swatch" style="background-color:#ff0000;" data-color="#ff0000"></span>
-    <span class="color-swatch" style="background-color:#00ff00;" data-color="#00ff00"></span>
-    <span class="color-swatch" style="background-color:#0000ff;" data-color="#0000ff"></span>
-    <span class="color-swatch" style="background-color:#ffff00;" data-color="#ffff00"></span>
-    <span class="color-swatch" style="background-color:#ff00ff;" data-color="#ff00ff"></span>
-    <span class="color-swatch" style="background-color:#00ffff;" data-color="#00ffff"></span>
-  </div>
+<div class="toolbar colors">
+  <button class="red" title="Красный"></button>
+  <button class="yellow" title="Жёлтый"></button>
+  <button class="blue" title="Синий"></button>
+  <button class="black" title="Черный"></button>
+  <button class="violet" title="Фиолетовый"></button>
+  <button class="pink" title="Розовый"></button>
+  <button class="green" title="Зеленый"></button>
+</div>
+
+<div id="canvasContainer">
+  <canvas id="drawingCanvas" width="800" height="600"></canvas>
 </div>
 
 <script>
   const canvas = document.getElementById('drawingCanvas');
   const ctx = canvas.getContext('2d');
 
-  let isDrawing = false;
-  let currentBrush = 'brush1';
-  let currentColor = '#000000';
+  let drawing = false;
+  let currentTool = 'pencil'; // по умолчанию
+  let currentColor = 'black';
 
-  // Настройки кистей
-  const brushes = {
-    brush1: { lineWidth: 5, strokeStyle: '#000000', lineCap: 'round' },
-    brush2: { lineWidth: 10, strokeStyle: '#000000', lineCap: 'round' },
-    brush3: { lineWidth: 3, strokeStyle: '#000000', lineCap: 'square' },
-    eraser: { lineWidth: 20, strokeStyle: '#ffffff', lineCap: 'round' }
-  };
+  // Обработчики для кистей
+  document.getElementById('pencil').onclick = () => currentTool = 'pencil';
+  document.getElementById('ballpoint').onclick = () => currentTool = 'ballpoint';
+  document.getElementById('brush').onclick = () => currentTool = 'brush';
+  document.getElementById('marker').onclick = () => currentTool = 'marker';
 
-  // Обработка выбора кисти
-  document.querySelectorAll('#toolbar button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentBrush = btn.getAttribute('data-brush');
-    });
+  // Обработчики для цветов
+  document.querySelectorAll('.colors button').forEach(btn => {
+    btn.onclick = () => {
+      currentColor = getComputedStyle(btn).backgroundColor;
+    };
   });
 
-  // Обработка выбора цвета
-  document.querySelectorAll('.color-swatch').forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      currentColor = swatch.getAttribute('data-color');
-      // Обновляем активный стиль
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      swatch.classList.add('active');
-    });
-  });
-
-  // Установка начального активного цвета
-  document.querySelectorAll('.color-swatch')[0].classList.add('active');
-
-  // Начало рисования
-  canvas.addEventListener('mousedown', (e) => {
-    isDrawing = true;
-    ctx.beginPath();
-    ctx.moveTo(e.offsetX, e.offsetY);
-  });
-
-  // Рисование
-  canvas.addEventListener('mousemove', (e) => {
-    if (isDrawing) {
-      const brush = brushes[currentBrush];
-      ctx.lineWidth = brush.lineWidth;
-      ctx.strokeStyle = currentBrush === 'eraser' ? brush.strokeStyle : currentColor;
-      ctx.lineCap = brush.lineCap;
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
+  // Настройки кистей (толщина и стиль линий)
+  function getLineSettings() {
+    switch(currentTool) {
+      case 'pencil':
+        return { lineWidth: 2, lineCap: 'round', lineJoin: 'round' };
+      case 'ballpoint':
+        return { lineWidth: 4, lineCap: 'round', lineJoin: 'round' };
+      case 'brush':
+        return { lineWidth: 8, lineCap: 'round', lineJoin: 'round' };
+      case 'marker':
+        return { lineWidth: 12, lineCap: 'round', lineJoin: 'round' };
+      default:
+        return { lineWidth: 2, lineCap: 'round', lineJoin: 'round' };
     }
+  }
+
+  // Обработка событий рисования
+  canvas.addEventListener('mousedown', (e) => {
+    drawing = true;
+    ctx.strokeStyle = currentColor;
+    const {x, y} = getMousePos(e);
+    ctx.lineWidth = getLineSettings().lineWidth;
+    ctx.lineCap = getLineSettings().lineCap;
+    ctx.lineJoin = getLineSettings().lineJoin;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
   });
 
-  // Конец рисования
   canvas.addEventListener('mouseup', () => {
-    isDrawing = false;
+    drawing = false;
   });
 
-  // Вышли за границы
   canvas.addEventListener('mouseout', () => {
-    isDrawing = false;
+    drawing = false;
   });
-</script>
 
+  canvas.addEventListener('mousemove', (e) => {
+    if (!drawing) return;
+    const {x, y} = getMousePos(e);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  });
+
+  function getMousePos(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+</script>
 </body>
 </html>
