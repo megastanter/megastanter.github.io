@@ -1,56 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-   <style>
-  p {
-    color: #26b72b;
-  }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Рисовать на Canvas</title>
+<style>
   body {
-	  background-color: #000000; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
   }
-  h1 {
-	  color: #26b72b;
-  } 
-  code {
-    font-weight: bold;
-  }
-  .picture-container{
-     display: flex;
-  flex-direction: row;
-  height: 100%;
-    justify-content: space-around;
-    overflow-x: scroll;
-    align-items: stretch;
 
+  #canvas {
+    border: 1px solid #000;
+    cursor: crosshair;
+  }
+
+  #buttons {
+    margin-top: 10px;
   }
 </style>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>My Website</title>
 </head>
 <body>
-  <div class="picture-container"> 
-    <div class="child"><img
-      class="fit-picture"
-      src="i.webp"></div>
-    <div class="child"><img
-      class="fit-picture"
-      src="orig.webp"></div>
-    <div class="child"><img
-      class="fit-picture"
-      src="49b33e6572525376130f4fd0f4252a1d.png"> 
-		<h1>кот белка и опоссум</h1>
-		<a href="https://excalidraw.com">Website</a> 
-	  <iframe
-        src="https://excalidraw.com/"
-        style="width:100%; height:80vh; border:none;"
-        allowfullscreen>
-    </iframe>
-	</div>
-     
-   
-   
-     </div>  
-  <script src="/static/oneko/oneko.js"></script> 
+
+<h2>Рисовать на Canvas</h2>
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<div id="buttons">
+  <button id="clearBtn">Очистить</button>
+</div>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  let drawing = false;
+
+  // Начинаем рисовать при нажатии мыши
+  canvas.addEventListener('mousedown', () => {
+    drawing = true;
+    ctx.beginPath();
+  });
+
+  // Рисуем при движении мыши
+  canvas.addEventListener('mousemove', (e) => {
+    if (drawing) {
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    }
+  });
+
+  // Останавливаем рисование при отпускании кнопки мыши
+  canvas.addEventListener('mouseup', () => {
+    drawing = false;
+  });
+
+  // Обработка выхода мыши за границы канваса
+  canvas.addEventListener('mouseleave', () => {
+    drawing = false;
+  });
+
+  // Кнопка для очистки холста
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+</script>
+
 </body>
-			
+</html>
