@@ -3,69 +3,87 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Рисовать на Canvas</title>
+<title>Рисование кистями</title>
 <style>
   body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     font-family: Arial, sans-serif;
+    margin: 20px;
   }
-
-  #canvas {
-    border: 1px solid #000;
+  #toolbar {
+    margin-bottom: 10px;
+  }
+  button {
+    margin-right: 5px;
+    padding: 8px 12px;
+  }
+  canvas {
+    border: 1px solid #ccc;
     cursor: crosshair;
-  }
-
-  #buttons {
-    margin-top: 10px;
   }
 </style>
 </head>
 <body>
 
-<h2>Рисовать на Canvas</h2>
-<canvas id="canvas" width="800" height="600"></canvas>
+<h1>Рисование разными кистями</h1>
 
-<div id="buttons">
-  <button id="clearBtn">Очистить</button>
+<div id="toolbar">
+  <button data-brush="brush1">Кисть 1</button>
+  <button data-brush="brush2">Кисть 2</button>
+  <button data-brush="brush3">Кисть 3</button>
+  <button data-brush="eraser">Ластик</button>
 </div>
 
+<canvas id="drawingCanvas" width="800" height="600"></canvas>
+
 <script>
-  const canvas = document.getElementById('canvas');
+  const canvas = document.getElementById('drawingCanvas');
   const ctx = canvas.getContext('2d');
 
-  let drawing = false;
+  let isDrawing = false;
+  let currentBrush = 'brush1';
 
-  // Начинаем рисовать при нажатии мыши
-  canvas.addEventListener('mousedown', () => {
-    drawing = true;
-    ctx.beginPath();
+  // Настройки кистей
+  const brushes = {
+    brush1: { lineWidth: 5, strokeStyle: '#000000', lineCap: 'round' },
+    brush2: { lineWidth: 10, strokeStyle: '#ff0000', lineCap: 'round' },
+    brush3: { lineWidth: 3, strokeStyle: '#0000ff', lineCap: 'square' },
+    eraser: { lineWidth: 20, strokeStyle: '#ffffff', lineCap: 'round' }
+  };
+
+  // Обработка выбора кисти
+  document.querySelectorAll('#toolbar button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentBrush = btn.getAttribute('data-brush');
+    });
   });
 
-  // Рисуем при движении мыши
+  // Начало рисования
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+  });
+
+  // Рисование
   canvas.addEventListener('mousemove', (e) => {
-    if (drawing) {
+    if (isDrawing) {
+      const brush = brushes[currentBrush];
+      ctx.lineWidth = brush.lineWidth;
+      ctx.strokeStyle = brush.strokeStyle;
+      ctx.lineCap = brush.lineCap;
       ctx.lineTo(e.offsetX, e.offsetY);
       ctx.stroke();
     }
   });
 
-  // Останавливаем рисование при отпускании кнопки мыши
+  // Конец рисования
   canvas.addEventListener('mouseup', () => {
-    drawing = false;
+    isDrawing = false;
   });
 
-  // Обработка выхода мыши за границы канваса
-  canvas.addEventListener('mouseleave', () => {
-    drawing = false;
-  });
-
-  // Кнопка для очистки холста
-  document.getElementById('clearBtn').addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Вышли за границы
+  canvas.addEventListener('mouseout', () => {
+    isDrawing = false;
   });
 </script>
 
