@@ -1,54 +1,163 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Мое резюме</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background-color: #fefbf7; /* нежный бежевый */
-      color: #4b3a2f; /* коричневый для текста */
-    }
-    header {
-      padding: 20px;
-      text-align: center;
-      background-color: #fff8f0; /* светлый бежевый */
-      border-bottom: 1px solid #e0d3c2;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Мое резюме</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #fefbf7; /* нежный бежевый */
+    color: #4b3a2f; /* коричневый для текста */
+    line-height: 1.6;
+  }
+
+  /* Заголовки */
+  h1, h2 {
+    margin: 0;
+    padding: 20px 0;
+  }
+
+  h1 {
+    font-size: 3em;
+    text-align: center;
+    background-color: #fff8f0; /* светлый бежевый */
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #8b6f50; /* мягкий коричневый */
+    border-bottom: 2px solid #e0d3c2;
+    padding-bottom: 10px;
+  }
+
+  /* Общие стили контейнера */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Разделы */
+  section {
+    margin-bottom: 40px;
+  }
+
+  /* О себе / Навыки */
+  .about, .skills, .education, .experience {
+    background-color: #fff8f0; /* светлый бежевый */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  }
+
+  /* Карточки навыков */
+  .skill {
+    display: inline-block;
+    background-color: #f0e0d0; /* чуть темнее бежевый */
+    padding: 10px 15px;
+    margin: 8px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  /* Проекты */
+  #projects iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  /* Контакт */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Адаптивность */
+  @media(max-width: 768px) {
     h1 {
-      margin: 0;
       font-size: 2em;
     }
-    section {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    h2 {
-      font-size: 1.8em;
-      margin-bottom: 20px;
-      color: #8b6f50; /* мягкий коричневый */
-    }
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    /* Минимализм: чистый дизайн без лишних элементов */
-  </style>
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Мое резюме</h1>
-  </header>
 
-  <section id="projects">
-    <h2>Проекты</h2>
-    <iframe src="https://megastanter.github.io/Paint.github.io/" title="Мой проект"></iframe>
-  </section>
+<header style="background-color:#fff8f0; padding:20px; text-align:center;">
+  <h1>Мое резюме</h1>
+</header>
+
+<div class="container">
+
+<!-- О себе -->
+<section class="about">
+  <h2>Обо мне</h2>
+  <p>Я — творческий специалист с большим опытом в дизайне, программировании и разработке веб-приложений. Обладаю навыками работы в команде, умею быстро обучаться новым технологиям и стремлюсь создавать красивые и удобные интерфейсы. Моя страсть — преобразовывать идеи в реальность и радовать пользователей уникальными проектами.</p>
+  <p>Образование: Бакалавр информационных технологий, Университет ИТ и Связи</p>
+</section>
+
+<!-- Навыки -->
+<section class="skills">
+  <h2>Навыки</h2>
+  <div class="skill">HTML5 & CSS3</div>
+  <div class="skill">JavaScript & TypeScript</div>
+  <div class="skill">React & Vue</div>
+  <div class="skill">Дизайн графики</div>
+  <div class="skill">UI/UX дизайн</div>
+  <div class="skill">Python & Django</div>
+  <div class="skill">Git & CI/CD</div>
+</section>
+
+<!-- Образование -->
+<section class="education">
+  <h2>Образование</h2>
+  <ul>
+    <li><strong>2020-2024:</strong> Бакалавр ИТ, Университет ИТ и Связи</li>
+    <li><strong>2018-2020:</strong> Средняя школа №123, профиль математика и информатика</li>
+  </ul>
+</section>
+
+<!-- Опыт работы -->
+<section class="experience">
+  <h2>Опыт работы</h2>
+  <ul>
+    <li><strong>2023 — настоящее время:</strong> Веб-разработчик в студии "CreativeWeb"</li>
+    <li><strong>2022 — 2023:</strong> Фриланс-проект: создание сайтов для малого бизнеса</li>
+  </ul>
+</section>
+
+<!-- Проекты -->
+<section id="projects">
+  <h2>Проекты</h2>
+  <p>Ниже представлен один из моих проектов — интерактивное рисование, созданное с помощью HTML5 Canvas:</p>
+  <iframe src="https://megastanter.github.io/Paint.github.io/" title="Проект рисования"></iframe>
+</section>
+
+<!-- Контакты -->
+<section class="contact">
+  <h2>Контакты</h2>
+  <div class="contact-info">
+    <p><strong>Телефон:</strong> +7 912 345-67-89</p>
+    <p><strong>Email:</strong> example@email.com</p>
+    <p><strong>Портфолио:</strong> <a href="#" target="_blank">linkedin.com/in/мойпрофиль</a></p>
+    <p><strong>Адрес:</strong> г. Москва, ул. Примерная, д. 10</p>
+  </div>
+</section>
+
+<!-- Подвал -->
+<footer style="background-color:#fff8f0; padding:20px; text-align:center; margin-top:40px;">
+  <p>&copy; 2024 Мое резюме. Все права защищены.</p>
+</footer>
+
+</div>
+
 </body>
 </html>
