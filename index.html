@@ -1,77 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-   <style>
-  p {
-    color: #26b72b;
-  }
-  body {
-	  background-color: #000000; 
-  }
-  h1 {
-	  color: #26b72b;
-  } 
-  code {
-    font-weight: bold;
-  }
-  .picture-container{
-     display: flex;
-  flex-direction: row;
-  height: 100%;
-    justify-content: space-around;
-    overflow-x: scroll;
-    align-items: stretch;
-
-  }
-</style>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>My Website</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мое резюме</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #fefbf7; /* нежный бежевый */
+      color: #4b3a2f; /* коричневый для текста */
+    }
+    header {
+      padding: 20px;
+      text-align: center;
+      background-color: #fff8f0; /* светлый бежевый */
+      border-bottom: 1px solid #e0d3c2;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    h2 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      color: #8b6f50; /* мягкий коричневый */
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    /* Минимализм: чистый дизайн без лишних элементов */
+  </style>
 </head>
 <body>
-  <div class="picture-container"> 
-    <div class="child"><img
-      class="fit-picture"
-      src="i.webp"></div>
-    <div class="child"><img
-      class="fit-picture"
-      src="orig.webp"></div>
-    <div class="child"><img
-      class="fit-picture"
-      src="49b33e6572525376130f4fd0f4252a1d.png"> 
-		<h1>кот белка и опоссум</h1>
-<title>Вставка сайта через iframe</title>
-</head>
-<body>
+  <header>
+    <h1>Мое резюме</h1>
+  </header>
 
-<h1>Сайт для рисования</h1>
-
-<!-- Кнопка для открытия сайта -->
-<button id="openSite">Открыть сайт</button>
-
-<!-- Контейнер для iframe, изначально скрыт -->
-<div id="iframeContainer" style="margin-top:20px; display:none;">
-  <iframe id="myIframe" src="" width="100%" height="600px" style="border:1px solid #ccc;"></iframe>
-</div>
-
-<script>
-  document.getElementById('openSite').addEventListener('click', function() {
-    const iframeContainer = document.getElementById('iframeContainer');
-    const iframe = document.getElementById('myIframe');
-    // Указываем URL сайта
-    iframe.src = '/Paint.github.io/';
-    // Показываем контейнер с iframe
-    iframeContainer.style.display = 'block';
-  });
-</script>
-
+  <section id="projects">
+    <h2>Проекты</h2>
+    <iframe src="https://megastanter.github.io/Paint.github.io/" title="Мой проект"></iframe>
+  </section>
 </body>
 </html>
-	</div>
-     
-   
-   
-     </div>  
-  <script src="/static/oneko/oneko.js"></script> 
-</body>
-</html> 			
